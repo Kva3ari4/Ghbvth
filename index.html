@@ -1,45 +1,45 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="ru">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="style.css">
-    <title>Массажный Салон</title>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>EduChoice — выбор вуза (ENT, Казахстан)</title>
+<link rel="stylesheet" href="style.css">
 </head>
 <body>
-    <!-- Yandex.Metrika counter -->
-<script type="text/javascript" >
-   (function(m,e,t,r,i,k,a){m[i]=m[i]||function(){(m[i].a=m[i].a||[]).push(arguments)};
-   m[i].l=1*new Date();
-   for (var j = 0; j < document.scripts.length; j++) {if (document.scripts[j].src === r) { return; }}
-   k=e.createElement(t),a=e.getElementsByTagName(t)[0],k.async=1,k.src=r,a.parentNode.insertBefore(k,a)})
-   (window, document, "script", "https://mc.yandex.ru/metrika/tag.js", "ym");
+<div class="container">
+<section class="panel">
+<h2>Профиль абитуриента (ENT)</h2>
+<label>Суммарный балл ENT</label>
+<input id="ent_total" type="number" placeholder="120" />
+<label>Баллы по предметам</label>
+<input id="ent_subjects" type="text" placeholder="Математика=40, Информатика=35" />
+<label>Интересы (через запятую)</label>
+<input id="interests" type="text" placeholder="IT, дизайн, экономика" />
+<label>Предпочитаемый город</label>
+<input id="city" type="text" placeholder="Алматы, Астана" />
+<div class="row">
+<label><input id="grant" type="checkbox" /> Только грант</label>
+<label><input id="hostel" type="checkbox" /> Общежитие</label>
+</div>
+<label>Максимальная плата в год (₸)</label>
+<input id="maxCost" type="number" value="2000000" />
+<div class="row">
+<button id="runBtn" class="btn">Подобрать</button>
+<button id="saveProfile" class="ghost">Экспорт профиля</button>
+</div>
+</section>
 
-   ym(100169516, "init", {
-        clickmap:true,
-        trackLinks:true,
-        accurateTrackBounce:true,
-        webvisor:true
-   });
-</script>
-<noscript><div><img src="https://mc.yandex.ru/watch/100169516" style="position:absolute; left:-9999px;" alt="" /></div></noscript>
-<!-- /Yandex.Metrika counter -->
-    <header>
-        <h1>Добро пожаловать в массажный салон</h1>
-        <p>Расслабьтесь, восстановите энергию и откройте для себя новые ощущения</p>
-    </header>
-    <main>
-        <div class="service">
-            <h2>Классический массаж</h2>
-            <p>Насладитесь классическим массажем для полного расслабления и снятия стресса. Успокаивающая техника способствует улучшению кровообращения и релаксации мышц.</p>
-        </div>
-        <div class="service">
-            <h2>Дополнительные услуги</h2>
-            <p class="extra">«Шлангом по лбу» — уникальная услуга для любителей экстрима и весёлых эмоций!</p>
-        </div>
-    </main>
-    <footer>
-        <p>© 2025 Массажный Салон. Все права защищены.</p>
-    </footer>
+<main class="panel">
+<h2>Рекомендации</h2>
+<div id="cards" class="cards"></div>
+</main>
+
+<aside class="panel">
+<h2>База вузов</h2>
+<div id="dbList"></div>
+</aside>
+</div>
+<script src="script.js"></script>
 </body>
 </html>
