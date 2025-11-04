@@ -1,46 +1,119 @@
 <!doctype html>
 <html lang="ru">
 <head>
-<meta charset="utf-8" />
-<meta name="viewport" content="width=device-width,initial-scale=1" />
-<title>EduChoice — выбор вуза (ENT, Казахстан)</title>
-<link rel="stylesheet" href="style.css">
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>EduChoice • Экспертная система выбора вуза</title>
+  <meta name="description" content="Интерактивная учебная экспертная система по выбору вуза и специальности — красивый UI, анимации и объяснения" />
+
+  <link rel="stylesheet" href="style.css" />
 </head>
 <body>
-<div class="container">
-<section class="panel">
-<h2>Профиль абитуриента (ENT)</h2>
-<label>Суммарный балл ENT</label>
-<input id="ent_total" type="number" placeholder="120" />
-<label>Баллы по предметам</label>
-<input id="ent_subjects" type="text" placeholder="Математика=40, Информатика=35" />
-<label>Интересы (через запятую)</label>
-<input id="interests" type="text" placeholder="IT, дизайн, экономика" />
-<label>Предпочитаемый город</label>
-<input id="city" type="text" placeholder="Алматы, Астана" />
-<div class="row">
-<label><input id="grant" type="checkbox" /> Только грант</label>
-<label><input id="hostel" type="checkbox" /> Общежитие</label>
-</div>
-<label>Максимальная плата в год (₸)</label>
-<input id="maxCost" type="number" value="2000000" />
-<div class="row">
-<button id="runBtn" class="btn">Подобрать</button>
-<button id="saveProfile" class="ghost">Экспорт профиля</button>
-</div>
-</section>
+  <div class="app">
+    <!-- LEFT: профиль -->
+    <div class="panel left">
+      <header class="site-header">
+        <div class="brand">
+          <div class="logo">EC</div>
+          <div>
+            <div style="font-weight:700">EduChoice</div>
+            <div class="small">Экспертная система — выбор вуза</div>
+          </div>
+        </div>
+        <button id="themeBtn" class="theme-toggle">Тема</button>
+      </header>
 
-<main class="panel">
-<h2>Рекомендации</h2>
-<div id="cards" class="cards"></div>
-</main>
+      <h2>Профиль абитуриента</h2>
+      <label>Суммарный балл ЕГЭ</label>
+      <input id="ege" type="number" min="0" max="400" value="260" />
 
-<aside class="panel">
-<h2>База вузов</h2>
-<div id="dbList"></div>
-</aside>
-</div>
-<script src="main.js"></script>
+      <label>Интересы (через запятую)</label>
+      <input id="interests" type="text" value="IT, programming" />
+
+      <label>Город предпочтения</label>
+      <input id="city" type="text" placeholder="Любой" />
+
+      <div class="row" style="margin-top:8px">
+        <label style="flex:1"><input id="budget" type="checkbox" checked /> Только бюджет</label>
+        <label style="flex:1"><input id="hostel" type="checkbox" /> Нужен общежитие</label>
+      </div>
+
+      <label>Максимальная плата в год (₽)</label>
+      <input id="maxCost" type="number" value="200000" />
+
+      <div style="margin-top:12px;display:flex;gap:8px">
+        <button id="runBtn" class="btn">Начать подбор</button>
+        <button id="saveProfile" class="ghost">Сохранить профиль</button>
+      </div>
+
+      <div style="margin-top:12px">
+        <div class="small">Весовые коэффициенты (перетаскивай ползунки)</div>
+        <div class="weights">
+          <div>
+            <div class="weight-row"><div class="small">EGE</div><input id="w_ege" type="range" min="0" max="5" step="0.1" value="3"></div>
+            <div class="weight-row"><div class="small">Interest</div><input id="w_interest" type="range" min="0" max="5" step="0.1" value="2.5"></div>
+            <div class="weight-row"><div class="small">City</div><input id="w_city" type="range" min="0" max="3" step="0.1" value="1"></div>
+          </div>
+          <div>
+            <div class="weight-row"><div class="small">Cost</div><input id="w_cost" type="range" min="0" max="3" step="0.1" value="1.5"></div>
+            <div class="weight-row"><div class="small">Hostel</div><input id="w_hostel" type="range" min="0" max="2" step="0.1" value="0.5"></div>
+            <div class="weight-row"><div class="small">Demand</div><input id="w_demand" type="range" min="0" max="3" step="0.1" value="1.5"></div>
+          </div>
+        </div>
+      </div>
+
+      <div style="margin-top:12px" class="small">Советы: попробуй менять веса — система покажет, как меняются варианты.</div>
+    </div>
+
+    <!-- CENTER: результаты -->
+    <div class="center">
+      <div class="panel">
+        <div class="toolbar">
+          <div>
+            <h2 style="margin:0">Рекомендации</h2>
+            <div class="small">Красивая карточная сетка с объяснениями</div>
+          </div>
+          <div style="display:flex;gap:8px;align-items:center">
+            <button id="exportCSV" class="ghost">Экспорт CSV</button>
+            <button id="clearBtn" class="ghost">Очистить</button>
+          </div>
+        </div>
+
+        <div id="cards" class="cards" style="margin-top:12px"></div>
+      </div>
+
+      <div style="display:flex;gap:12px;align-items:center">
+        <div class="panel" style="flex:1">
+          <h3 style="margin-top:0">Действия</h3>
+          <div style="display:flex;gap:8px">
+            <button id="saveDB" class="btn">Сохранить БД</button>
+            <button id="loadDB" class="ghost">Загрузить БД</button>
+          </div>
+          <div style="margin-top:8px" class="small">Можно добавлять/редактировать в правой панели</div>
+        </div>
+        <div class="panel" style="width:260px">
+          <h3 style="margin-top:0">Подсказка</h3>
+          <div class="small">Двойной клик по карточке — подробное объяснение. Кнопка "Тема" переключает стиль.</div>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- RIGHT: база вузов -->
+    <div class="panel right">
+      <h2>База вузов</h2>
+      <div id="dbList" class="list" style="max-height:420px;overflow:auto;margin-top:8px"></div>
+      <div style="margin-top:12px;display:flex;gap:8px">
+        <button id="addUni" class="btn">Добавить вуз</button>
+        <button id="restoreSample" class="ghost">Пример БД</button>
+      </div>
+      <footer class="small">Версия: учебная • Сделано: EduChoice UI</footer>
+    </div>
+
+  </div>
+
+  <!-- Modal container -->
+  <div id="modalRoot" style="display:none"></div>
+  <script src="main.js"></script>
 </body>
 </html>
-
